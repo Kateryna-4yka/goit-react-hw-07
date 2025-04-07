@@ -9,6 +9,11 @@ export const selectFilteredContacts = createSelector ([selectContacts, selectNam
   (contacts, wordForFilter) => {
   return contacts.filter(el => {return el.name.toLowerCase().includes(wordForFilter.toLowerCase().trim())})});  
 
+
+  export const selectAllContacts = createSelector ([selectContacts], 
+    (contacts) => {
+    return contacts.length});
+
 const slice = createSlice ({
     name: `contacts`, 
     initialState: 
@@ -22,6 +27,7 @@ const slice = createSlice ({
     builder
     .addCase(fetchContacts.pending, (state) => {
       state.contacts.loading = true;
+      state.contacts.error = null;
     })
     .addCase(fetchContacts.fulfilled, (state, action) => {
       state.contacts.loading = false;
@@ -36,6 +42,7 @@ const slice = createSlice ({
 
     .addCase(addContact.pending, (state) => {
       state.contacts.loading =  true;
+      state.contacts.error = null;
     })
     .addCase(addContact.fulfilled, (state, action) => {
       state.contacts.loading =  false;
@@ -49,6 +56,7 @@ const slice = createSlice ({
 
     .addCase(deleteContact.pending, (state) => {
       state.contacts.loading = true;
+      state.contacts.error = null;
     })
     .addCase(deleteContact.fulfilled, (state, action) => {
       state.contacts.loading = false;

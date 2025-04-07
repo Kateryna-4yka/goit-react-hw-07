@@ -1,7 +1,7 @@
 import css from './ContactList.module.css';
 import Contact from '../Contact/Contact';
 import { useSelector } from 'react-redux';
-import { selectLoading, selectError ,selectFilteredContacts } from '../../redux/contactsSlice';
+import { selectLoading, selectError ,selectFilteredContacts, } from '../../redux/contactsSlice';
 
 export default function ContactList () {
 
@@ -13,7 +13,7 @@ return <>
 {loader && <p>Loading, plz pagajdite</p>}
 {error && <p>Error</p>}
 <ul className={css.ul}>
-    {list && list.map((el)=>{
+    {list.length >0 && list.map((el)=>{
         return <li key={el.id}>
                     <Contact listElement={el} />
                 </li>})}
