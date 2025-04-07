@@ -1,18 +1,20 @@
 import css from './ContactList.module.css';
 import Contact from '../Contact/Contact';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectLoading, selectError ,selectFilteredContacts } from '../../redux/contactsSlice';
 
 export default function ContactList () {
 
-const userList = useSelector ((state) => {
-    return (state.contacts.items)});
-const wordForFilter = useSelector ((state) => {
-    return (state.filters.name)});
-const list = userList.filter(el => {return el.name.toLowerCase().includes(wordForFilter.toLowerCase().trim())})
-return <ul className={css.ul}>
+const list = useSelector (selectFilteredContacts);
+const loader = useSelector (selectLoading);
+const error = useSelector (selectError);
 
-    {list.map((el)=>{
+return <>
+{loader && <p>Loading, plz pagajdite</p>}
+{error && <p>Error</p>}
+<ul className={css.ul}>
+    {list && list.map((el)=>{
         return <li key={el.id}>
                     <Contact listElement={el} />
                 </li>})}
-        </ul>}
+</ul></>}

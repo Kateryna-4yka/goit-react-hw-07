@@ -6,9 +6,8 @@ import { BiPhoneIncoming } from "react-icons/bi";
 import { BiSolidCat } from "react-icons/bi";
 import {useId} from 'react';
 import css from './ContactForm.module.css';
-
 import { useDispatch} from 'react-redux';
-import {addContact} from '../../redux/contactsSlice';
+import {addContact} from '../../redux/contactsOps';
 
 const ContactFormSchema = Yup.object().shape({
     name: Yup.string()
@@ -24,46 +23,31 @@ const ContactFormSchema = Yup.object().shape({
   });
 
 export default function ContactForm () {
-const idForm = nanoid();
 const idForEl = useId();
-
 const dispatch = useDispatch();
-
 const handleSubmit = (values, actions) => {
-    const newContact = { id: nanoid(), ...values }; 
-    dispatch (addContact(newContact));
-    actions.resetForm();
-};
+    dispatch (addContact(values));
+    actions.resetForm();};
 
 return <Formik 
 initialValues={{
     name: '',
     number: ''}}
 onSubmit={handleSubmit}
-validationSchema={ContactFormSchema}
->
+validationSchema={ContactFormSchema}>
 
 <Form className={css.form}>
-
 <div className={css.div}>
     <label className={css.label} htmlFor={`name-${idForEl}`}><BiSolidCat className={css.icon}/> Name</label>
     <Field className={css.input} id={`name-${idForEl}`} name='name' type='text' />
     <ErrorMessage  className={css.err}  name="name" component="span" />
 </div>
-
 <div className={css.div}>
     <label className={css.label} htmlFor={`number-${idForEl}`}><BiPhoneIncoming className={css.icon}/> Number</label>
     <Field className={css.input} id={`number-${idForEl}`} name='number'  type='tel' />
     <ErrorMessage  className={css.err} name="number" component="span" />
 </div>
-
 <button className={css.button} type='submit'><IoIosPaw className={css.icon}/> Add contact</button> 
-
 </Form>
-
-
-
-
 </Formik>
-
 }
